@@ -36,7 +36,7 @@ formulario.addEventListener('submit', (event) => {
   let nombre = formulario.nombre.value
   let user = formulario.user.value
   let email = formulario.email.value
-  let password = formulario.password.value + ".jpeg";
+  let password = formulario.password.value;
   // console.log(titulo,descripcion,precio);
 
   // Objetos con los datos obtenidos en el formulario

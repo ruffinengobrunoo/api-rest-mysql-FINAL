@@ -85,17 +85,17 @@ app.delete('/productos/:id', (req, res) => {
 
 
 // usuario
-app.get('/usuario', (req, res) => {
-    const sql = "SELECT * FROM usuario";
-    db.query(sql, (err, result) => {
-        if (err) {
-            console.error('error de lectura')
-            return;
-        }
-        console.log(result)
-        res.json(result)
-    })
-})
+// app.get('/usuario', (req, res) => {
+//     const sql = "SELECT * FROM usuario";
+//     db.query(sql, (err, result) => {
+//         if (err) {
+//             console.error('error de lectura')
+//             return;
+//         }
+//         console.log(result)
+//         res.json(result)
+//     })
+// })
 
 app.post('/usuario', (req, res) => {
     // console.log(req.body)
@@ -113,47 +113,77 @@ const sql = "INSERT INTO usuario (nombre, user, email, password) VALUES (?, ?, ?
     })
 })
 
-app.get('/login', (req, res) => {
-    const sql = "SELECT * FROM usuario";
-    db.query(sql, (err, result) => {
-        if (err) {
-            console.error('error de lectura')
-            return;
-        }
-        console.log(result)
-        res.json(result)
-    })
-})
+// app.post('/login', (req, res)=> {
 
-app.post('/login', (req, res)=> {
+//     const values= Object.values(req.body);
+//     const sql = "SELECT * FROM usuario where user = ?";
+//     const {user, password} = req.body;
+//     db.query(sql, [user], (err, result)=>{
+//         if(err){
+//             console.error('error al buscar el usuario')
+//             return;
+//         }
+//         console.log(result)
+//         res.json({mensaje: 'usuario encontrado'})
 
-    const values= Object.values(req.body);
-    const sql = "SELECT * FROM usuario where user = ?";
-    db.query(sql, values, (err, result)=>{
-        if(err){
-            console.error('error al buscar el usuario')
-            return;
-        }
-        console.log(result)
-        res.json({mensaje: 'usuario encontrado'})
+//         if (result.length === 0) {
+//             return res.status(400).send('Usuario no encontrado');
+//         }
 
-        const usuario = results()
+//         const user = result[0]
 
-        if( password===usuario.password){
-            req.session.id = usuario.id;  
+//         if(password===user.password){
+//             req.session.id = user.id;  
             
-            return res.status(200).json({
-                mensaje: 'ingreso exitoso',
-                id: usuario.id,
-                user: usuario.user
-            });
-        }else{
-           res.send({mensaje: 'contraseña incorrecta'})
-        }
-    })
+//             return res.status(200).json({
+//                 mensaje: 'ingreso exitoso',
+//                 id: user.id,
+//                 user: user.user,
+//                 password: user.password
+//             });
+//         }else{
+//            res.send({mensaje: 'contraseña incorrecta'})
+//         }
+//     })
     
 
-})
+// })
+
+app.post('/login', (req, res) => {
+    const { user, password } = req.body;
+
+    if (!user || !password) {
+        return res.status(400).send('Faltan datos');
+    }
+
+    const sql = 'SELECT * FROM usuario WHERE user = ?';
+    db.query(sql, [user], (err, results) => {
+        if (err) {
+            return res.status(500).send('Error al realizar la consulta');
+        }
+
+        if (results.length === 0) {
+            return res.status(400).send('Usuario no encontrado');
+        }
+
+        const user = results[0];
+
+        if (password === user.password) {
+            req.session.id = user.id;  
+
+            return res.status(200).json({
+                mensaje: 'Login exitoso',
+                id: user.id,
+                nombre: user.nombre,
+                password: user.password
+            });
+        } else {
+            return res.status(400).send('Contraseña incorrecta');
+        }
+    });
+});
+
+
 
 app.put('/usuario', (req, res) => {
     // res.send('Actualizar producto')

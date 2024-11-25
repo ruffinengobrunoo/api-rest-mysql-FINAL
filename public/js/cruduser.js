@@ -1,14 +1,9 @@
 const endpoint = '/login'
 
-fetch(endpoint)
-  .then(respuesta => respuesta.json())
-  .then(datos => obtenerDatos(datos))
+mostrarMensaje = (mensaje) => {
+  document.querySelector('#divMensaje').innerHTML = mensaje;
+}
 
-  mostrarMensaje = (mensaje) => {
-    document.querySelector('#divMensaje').innerHTML = mensaje;
-  }
-
-  
 const obtenerDatos = async () => {
     try {
       const respuesta = await fetch(endpoint)
@@ -19,25 +14,20 @@ const obtenerDatos = async () => {
     }
 }
 
-document.getElementById('login').addEventListener('click', function () {
-  const formulario = document.getElementById('login');
-  formulario.classList.toggle('nuevo');
-})
-const login = document.forms['login'];
+const login = document.forms['login'];  
 console.log(login)
-login.addEventListener ('submit', async (event) => {
-    event.preventDefault();
-  
-    const user = login.user.value;
-    const password = login.password.value;
-  
-    if (!user || !password) {
-      document.querySelector('#mensaje').innerHTML = '*Complete todos los datos';
-      return;
-    }
-    document.querySelector('#mensaje').innerHTML = ''
+login.addEventListener('submit', (event) => {
+  event.preventDefault();
 
-    const datosUser = { user, password };
+  const user = login.user.value;
+  const password = login.password.value;
+
+  if (!user || !password) {
+    document.querySelector('#mensajeLog').innerHTML = '*Complete todos los datos';
+    return;
+  }
+
+  const datosLogin = { user, password };
 
   const ingreso = async () => {
     try {
@@ -46,22 +36,22 @@ login.addEventListener ('submit', async (event) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(datosUser),
+        body: JSON.stringify(datosLogin),
       });
 
       if (!response.ok) {
-        throw new Error('Error en la respuesta del servidor');
+        mostrarMensaje('error al verificar usuario')
       }
 
       const data = await response.json();
       console.log('Datos del usuario:', data);
 
-      datosUser(datos);  
-       if (datos.id==1) {
-        window.location.href = '/productosadmin.html'; 
+      loginUsuario(data);  
+       if (data.id==2) {
+        window.location.href = '../admin.html'; 
       } 
       else{
-        window.location.href = '/index.html';  
+        window.location.href = '../index.html';  
       }
     } catch (error) {
       console.error('Error de login:', error);
@@ -70,8 +60,12 @@ login.addEventListener ('submit', async (event) => {
   };
 
   ingreso();
+});
 
-})
+function loginUsuario(usuario) {
+  localStorage.setItem('usuarioLogueado', JSON.stringify(usuario)); 
+  // mostrarNavbar();
+}
 
 // const usuario = await response.json();
 // console.log('Datos del usuario:', usuario);
@@ -112,11 +106,11 @@ login.addEventListener ('submit', async (event) => {
 // mostrarNavbar();
 
 
-// eliminar producto por atrevido gato..
+// eliminar cuenta :3
 // const eliminar = (id) => {
 //     // console.log(id + " sos capo")
 //     if (confirm('¿Realmente desea eliminar su cuenta?')) {
-//       const eliminarProd = async () => {
+//       const eliminaCuenta = async () => {
 //         try {
 //           const res = await fetch(endpoint + '/' + id, { // endpoint con param
 //             method: 'delete'
