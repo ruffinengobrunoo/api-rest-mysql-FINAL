@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -42,11 +42,15 @@
                                     <input type="text" class="form-control" placeholder="Titulo" name="titulo">
                                 </div>
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" placeholder="Descripcion" name="descripcion">
+                                    <input type="text" class="form-control" placeholder="Descripción" name="descripcion">
                                 </div>
                                 <div class="mb-3">
                                     <input type="number" class="form-control" placeholder="Precio" name="precio">
                                 </div>
+                                <div class="mb-3">
+                                    <input class="form-control" type="file" id="formFile" name="imagen">
+                                </div>
+                                
                                 <button type="submit" class="btn btn-success w-100">Añadir Producto</button>
                                 <p id="mensaje"></p>
                             </form>
@@ -74,6 +78,9 @@
                                     </div>
                                     <div class="mb-3">
                                         <input type="number" class="form-control" placeholder="Precio" name="precio">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input class="form-control" type="file" id="formFile" name="imagen">
                                     </div>
                                     <button type="submit" class="btn btn-warning w-100">Editar Producto</button>
                                     <p id="mensajeEditar"></p>
