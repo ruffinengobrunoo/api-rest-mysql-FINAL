@@ -10,7 +10,7 @@ const mostrarProductos = (datos) => {
         productos += 
         `<div class="card border border-1 border-dark d-flex flex-column align-items-center"
             style="width: 100%; max-width: 300px; margin:30px">
-            <img src="${datos.img}" class="card-img-top rounded" width="200" height="200" alt="...">
+            <img src="${datos.imagen}" class="card-img-top" style="width: 100%; height: 250px; padding: 0px" alt="...">
             <div class="card-body ">
                 <h4>${datos.titulo}</h4>
                 <p class="card-text ">${datos.descripcion}</p>

@@ -32,7 +32,7 @@ CREATE TABLE `productos` (
   `titulo` varchar(30) NOT NULL,
   `descripcion` varchar(30) NOT NULL,
   `precio` int(11) NOT NULL,
-  `imagen` mediumblob NOT NULL
+  `imagen` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -40,8 +40,6 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `titulo`, `descripcion`, `precio`, `imagen`) VALUES
-(1, 'uuukkk', 'aaa', 123, ''),
-(2, 'aaaa', 'eeeee', 5, '');
 
 -- --------------------------------------------------------
 

@@ -10,8 +10,9 @@ usuario.style.display = 'none';
 
 ingresar.addEventListener('click', ()=>{
     
+    window.location.href= '../signin.html'
     ingresar.style.display = "none";
-    usuario.style.display = "block";
+    // usuario.style.display = "block";
 
 });
 

@@ -26,7 +26,7 @@ const obtenerDatos = async () => {
       productos +=
         `<div class="card border border-1 border-dark d-flex flex-column align-items-center"
                   style="width: 100%; max-width: 300px; margin:30px">
-                  <img src="fotos/${prod.img}" class="card-img-top rounded" width="200" height="200" alt="...">
+                  <img src="fotos/${prod.imagen}" class="card-img-top" style="width: 100%; height: 250px; padding: 0px" " alt="...">
                   <div class="card-body ">
                       <h4>${prod.titulo}</h4>
                       <p class="card-text ">${prod.descripcion}</p>
@@ -64,14 +64,14 @@ formulario.addEventListener('submit', (event) => {
   let titulo = formulario.titulo.value
   let descripcion = formulario.descripcion.value
   let precio = formulario.precio.value
-  let img = formulario.titulo.value + ".jpeg";
+  let imagen = formulario.imagen.value+'.jpeg'
   // console.log(titulo,descripcion,precio);
 
   // Objetos con los datos obtenidos en el formulario
-  let newDatos = { titulo: titulo, descripcion: descripcion, precio: precio, img: img }
+  let newDatos = { titulo: titulo, descripcion: descripcion, precio: precio, imagen: imagen }
 
 
-  if (!newDatos.titulo || !newDatos.descripcion || !newDatos.precio) {
+  if (!newDatos.titulo || !newDatos.descripcion || !newDatos.precio || !newDatos.imagen) {
     document.querySelector('#mensaje').innerHTML = '*Complete todos los datos'
     return
   }

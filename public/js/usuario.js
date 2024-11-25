@@ -85,8 +85,5 @@ formulario.addEventListener('submit', (event) => {
     }
   }
   enviarNewProducto()
-  if (user.id=== 1){
-        window.location.href= '../admin.html'
-    }
 
 })

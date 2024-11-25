@@ -1,8 +1,12 @@
-const endpoint = '/usuario'
+const endpoint = '/login'
 
 fetch(endpoint)
   .then(respuesta => respuesta.json())
   .then(datos => obtenerDatos(datos))
+
+  mostrarMensaje = (mensaje) => {
+    document.querySelector('#divMensaje').innerHTML = mensaje;
+  }
 
   
 const obtenerDatos = async () => {
@@ -15,8 +19,12 @@ const obtenerDatos = async () => {
     }
 }
 
-
+document.getElementById('login').addEventListener('click', function () {
+  const formulario = document.getElementById('login');
+  formulario.classList.toggle('nuevo');
+})
 const login = document.forms['login'];
+console.log(login)
 login.addEventListener ('submit', async (event) => {
     event.preventDefault();
   
@@ -27,19 +35,57 @@ login.addEventListener ('submit', async (event) => {
       document.querySelector('#mensaje').innerHTML = '*Complete todos los datos';
       return;
     }
+    document.querySelector('#mensaje').innerHTML = ''
 
-const usuario = await response.json();
-console.log('Datos del usuario:', usuario);
+    const datosUser = { user, password };
 
-loginUsuario(usuario);  
-    if (usuario.id==1) {
-        window.location.href = '/admin.html'; 
-    } 
-    else{
+  const ingreso = async () => {
+    try {
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosUser),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error en la respuesta del servidor');
+      }
+
+      const data = await response.json();
+      console.log('Datos del usuario:', data);
+
+      datosUser(datos);  
+       if (datos.id==1) {
+        window.location.href = '/productosadmin.html'; 
+      } 
+      else{
         window.location.href = '/index.html';  
+      }
+    } catch (error) {
+      console.error('Error de login:', error);
+      document.querySelector('#mensaje').innerHTML = 'Error al intentar iniciar sesión';
     }
+  };
+
+  ingreso();
 
 })
+
+// const usuario = await response.json();
+// console.log('Datos del usuario:', usuario);
+
+// login(usuario);  
+//     if (usuario.id==1) {
+//         window.location.href = '/admin.html'; 
+//     } 
+//     else{
+//         window.location.href = '/index.html';  
+//     }
+
+
+
 // function ingreso(usuario) {
 //   localStorage.setItem('registro', JSON.stringify(usuario)); 
 //   mostrarNavbar();
