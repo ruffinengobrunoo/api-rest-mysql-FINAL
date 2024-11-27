@@ -1,4 +1,4 @@
-const endpoint = '/usuario'
+const endpoint = '/registro'
 
 mostrarMensaje = (mensaje) => {
   document.querySelector('#divMensaje').innerHTML = mensaje;
@@ -42,12 +42,14 @@ formulario.addEventListener('submit', (event) => {
   // Objetos con los datos obtenidos en el formulario
   let newDatos = { nombre: nombre, user: user, email: email, password: password }
 
-
   if (!newDatos.nombre || !newDatos.user || !newDatos.email || !newDatos.password) {
     document.querySelector('#mensaje').innerHTML = '*Complete todos los datos'
     return
   }
+  
   document.querySelector('#mensaje').innerHTML = ''
+
+
 
   let nuevosDatosJson = JSON.stringify(newDatos)
   console.log(nuevosDatosJson)
@@ -68,16 +70,13 @@ formulario.addEventListener('submit', (event) => {
       mensaje.className += 'bg-warning';
       mensaje.innerHTML = respuesta.mensaje;
 
-      //limpiar formulario y ocultarlo
-      // document.querySelector('#formAñadir').reset();
-    //   document.querySelector('#formAñadir').style.display = 'none';
-
       mostrarMensaje(respuesta.mensaje)
 
       //refrescar la pagina
       setTimeout(() => {
         location.reload();
       }, 1000);
+      window.location.href='../index.html';
 
     }
     catch (error) {

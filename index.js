@@ -85,19 +85,8 @@ app.delete('/productos/:id', (req, res) => {
 
 
 // usuario
-// app.get('/usuario', (req, res) => {
-//     const sql = "SELECT * FROM usuario";
-//     db.query(sql, (err, result) => {
-//         if (err) {
-//             console.error('error de lectura')
-//             return;
-//         }
-//         console.log(result)
-//         res.json(result)
-//     })
-// })
 
-app.post('/usuario', (req, res) => {
+app.post('/registro', (req, res) => {
     // console.log(req.body)
     // console.log(Object.values(req.body));
     const values = Object.values(req.body);
@@ -113,43 +102,8 @@ const sql = "INSERT INTO usuario (nombre, user, email, password) VALUES (?, ?, ?
     })
 })
 
-// app.post('/login', (req, res)=> {
-
-//     const values= Object.values(req.body);
-//     const sql = "SELECT * FROM usuario where user = ?";
-//     const {user, password} = req.body;
-//     db.query(sql, [user], (err, result)=>{
-//         if(err){
-//             console.error('error al buscar el usuario')
-//             return;
-//         }
-//         console.log(result)
-//         res.json({mensaje: 'usuario encontrado'})
-
-//         if (result.length === 0) {
-//             return res.status(400).send('Usuario no encontrado');
-//         }
-
-//         const user = result[0]
-
-//         if(password===user.password){
-//             req.session.id = user.id;  
-            
-//             return res.status(200).json({
-//                 mensaje: 'ingreso exitoso',
-//                 id: user.id,
-//                 user: user.user,
-//                 password: user.password
-//             });
-//         }else{
-//            res.send({mensaje: 'contraseña incorrecta'})
-//         }
-//     })
-    
-
-// })
-
-app.post('/login', (req, res) => {
+// ingreso
+app.post('/usuario', (req, res) => {
     const { user, password } = req.body;
 
     if (!user || !password) {
@@ -175,6 +129,7 @@ app.post('/login', (req, res) => {
                 mensaje: 'Login exitoso',
                 id: user.id,
                 nombre: user.nombre,
+                user: user.user,
                 password: user.password
             });
         } else {
@@ -187,37 +142,35 @@ app.post('/login', (req, res) => {
 
 app.put('/usuario', (req, res) => {
     // res.send('Actualizar producto')
-    const valores = Object.values(req.body);
-    console.log(valores)
-    const sql = "UPDATE usuario SET nombre=?, password=? WHERE id=?"
-    db.query(sql, valores, (err, result) => {
+    const {user}= req.body
+    // const valores = Object.values(req.body);
+    console.log(user)
+    const sql = "UPDATE usuario SET password=? WHERE user=?"
+    db.query(sql, user, (err, result) => {
         if (err) {
             console.error('error al modificar el perfil')
             return;
+        }
+        if (user===user.user){
+            req.session.id= user.id
+            return res.status(200).json({
+                mensaje: 'Login exitoso'
+            })
+        }else{
+            console.error('no se pudo')
         }
         res.json({ mensaje: "perfil actualizado", data: result})
         console.log(result)
     })
 })
 
-app.get('/usuario/:id', (req, res) => {
-    const sql = "SELECT * FROM usuario WHERE id = ?";
-    db.query(sql, [id], (err, result) => {
-        if (err) {
-            console.error('error de lectura')
-            return;
-        }
-        console.log(result)
-        res.json(result)
-    })
-})
 
-app.delete('/usuario/:id', (req, res) => {
+app.delete('/usuario/:user', (req, res) => {
     // res.send('Eliminando Producto')
     const id = req.params.id;
 
-    const sql = "DELETE FROM productos WHERE id = ?";
-    db.query(sql, [id], (err, result) => {
+    const sql = "DELETE FROM productos WHERE user = ?";
+    db.query(sql, [user], (err, result) => {
         if (err) {
             console.error('error al borrar')
             return;

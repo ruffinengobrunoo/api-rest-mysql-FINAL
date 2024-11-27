@@ -4,6 +4,14 @@ mostrarMensaje = (mensaje) => {
   document.querySelector('#divMensaje').innerHTML = mensaje;
 }
 
+let form=document.querySelector('#prodNuevo')
+form.style.display= 'none';
+let añadir=document.querySelector('#añadir')
+
+añadir.addEventListener('click', ()=>{
+  form.style.display = "block";
+});
+
 // Event listener para el botón "Añadir Producto"
 document.getElementById('añadir').addEventListener('click', function () {
   const formulario = document.getElementById('prodNuevo');
@@ -26,7 +34,7 @@ const obtenerDatos = async () => {
       productos +=
         `<div class="card border border-1 border-dark d-flex flex-column align-items-center"
                   style="width: 100%; max-width: 300px; margin:30px">
-                  <img src="fotos/${prod.imagen}" class="card-img-top" style="width: 100%; height: 250px; padding: 0px" " alt="...">
+                  <img src="./fotos/${prod.imagen}" class="card-img-top" style="width: 100%; height: 250px; padding: 0px" " alt="...">
                   <div class="card-body ">
                       <h4>${prod.titulo}</h4>
                       <p class="card-text ">${prod.descripcion}</p>
@@ -64,7 +72,7 @@ formulario.addEventListener('submit', (event) => {
   let titulo = formulario.titulo.value
   let descripcion = formulario.descripcion.value
   let precio = formulario.precio.value
-  let imagen = formulario.imagen.value+'.jpeg'
+  let imagen = formulario.imagen.value+'.jpg'
   // console.log(titulo,descripcion,precio);
 
   // Objetos con los datos obtenidos en el formulario
