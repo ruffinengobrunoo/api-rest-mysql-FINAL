@@ -37,7 +37,6 @@ formulario.addEventListener('submit', (event) => {
   let user = formulario.user.value
   let email = formulario.email.value
   let password = formulario.password.value;
-  // console.log(titulo,descripcion,precio);
 
   // Objetos con los datos obtenidos en el formulario
   let newDatos = { nombre: nombre, user: user, email: email, password: password }
@@ -86,3 +85,58 @@ formulario.addEventListener('submit', (event) => {
   enviarNewProducto()
 
 })
+
+// cambiar contraseña
+const editar = document.forms['editPassword']
+console.log(formulario)
+editar.addEventListener('submit', (event) => {
+  event.preventDefault();
+  
+  let password = editar.password.value
+  let newPassword = editar.newPassword.value
+  let confirm = editar.confirm.value
+
+  // Objetos con los datos obtenidos en el formulario
+  let newData = { password: password, mewPassword: newPassword, confirm: confirm }
+
+  if (!newData.password || !newData.newPassword || !newData.confirm) {
+    document.querySelector('#mensaje').innerHTML = '*Complete todos los datos'
+    return
+  }
+  
+  document.querySelector('#mensaje').innerHTML = ''
+
+  let nuevosDatosJson = JSON.stringify(newDatos)
+  console.log(nuevosDatosJson)
+  const nuevaContraseña = async () => { //enviar datos al back
+    try {
+      const enviarDatos = await fetch('/editar', {
+        method: 'post',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: nuevosDatosJson
+      })
+
+      //obtengo la respuesta del back
+      const respuesta = await enviarDatos.json()
+      console.log(respuesta)
+      let mensaje = document.querySelector('#divMensaje');
+      mensaje.className += 'bg-warning';
+      mensaje.innerHTML = respuesta.mensaje;
+
+      mostrarMensaje(respuesta.mensaje)
+
+      //refrescar la pagina
+      setTimeout(() => {
+        location.reload();
+      }, 1000);
+    
+      window.location.href='../index.html';
+  }catch (error) {
+        console.log(error)
+      }
+  }
+    enviarNewProducto()
+  })
+

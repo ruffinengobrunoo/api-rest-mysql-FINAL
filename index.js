@@ -4,7 +4,8 @@ const db = require('./db/conexion')
 const fs = require('fs') //Permite trabajar con archivos (file system) incluida con node, no se instala
 const cors = require('cors')
 const dotenv = require('dotenv/config')
-const session = require('express-session')
+const session = require('express-session');
+const { error } = require('console');
 
 const app = express();
 const port = 3000;
@@ -100,6 +101,8 @@ const sql = "INSERT INTO usuario (nombre, user, email, password) VALUES (?, ?, ?
         res.json({ mensaje: "nuevo usuario registrado" })
 
     })
+    req.session.save;
+    req.accepts
 })
 
 // ingreso
@@ -119,12 +122,17 @@ app.post('/usuario', (req, res) => {
         if (results.length === 0) {
             return res.status(400).send('Usuario no encontrado');
         }
-
+        if (req.query.id === 1){
+            req.session.admin= true;
+        }
         const user = results[0];
 
         if (password === user.password) {
             req.session.id = user.id;  
-
+            req.session.save((err) => {
+                if(err){
+                    console.error('error')
+                }
             return res.status(200).json({
                 mensaje: 'Login exitoso',
                 id: user.id,
@@ -132,184 +140,46 @@ app.post('/usuario', (req, res) => {
                 user: user.user,
                 password: user.password
             });
-        } else {
-            return res.status(400).send('Contraseña incorrecta');
+        })
+        }else {
+        return res.status(400).send('Contraseña incorrecta');
         }
-    });
-});
-
-app.post('/modificarContra', (req, res) => {
     
-    const { contraseñaActual, nuevaContraseña } = req.body;
-
-    console.log("Datos recibidos: ", req.body);  
-
-    if (!contraseñaActual || !nuevaContraseña || !req.session.id) {
-        console.log("Faltan datos: ", { contraseñaActual, nuevaContraseña, id: req.session.id});
-        return res.status(400).json({ mensaje: 'Faltan datos: contraseña actual, nueva contraseña o id en sesión.' });
-    }
-
-    const usuarioId = req.session.id; 
-
-    const query = 'SELECT password FROM usuario WHERE id = ?';
-    db.query(query, [usuarioId], (err, results) => {
-        if (err) {
-            console.log("Error en la base de datos: ", err);
-            return res.status(500).json({ mensaje: 'Error al consultar la base de datos.' });
-        }
-
-        if (results.length === 0) {
-            console.log("Usuario no encontrado.");
-            return res.status(404).json({ mensaje: 'Usuario no encontrado.' });
-        }
-
-        if (contraseñaActual !== results[0].password) {
-            console.log("Contraseña actual incorrecta.");
-            return res.status(400).json({ mensaje: 'La contraseña actual es incorrecta.' });
-        }
-
-        const updateQuery = 'UPDATE usuario SET password = ? WHERE id = ?';
-        db.query(updateQuery, [nuevaContraseña, usuarioId], (err, result) => {
-            if (err) {
-                console.log("Error al actualizar la contraseña: ", err);
-                return res.status(500).json({ mensaje: 'Error al actualizar la contraseña.' });
-            }
-
-            console.log("Contraseña actualizada correctamente.");
-            return res.status(200).json({ mensaje: 'Contraseña cambiada correctamente.' });
-        });
     });
 });
 
-// app.post('/uptContra', (req, res) => {
-    // const { password, newPassword } = req.body;
-
-//     console.log("Datos recibidos: ", req.body);  
-
-//     if (!password || !newPassword ) {
-//         console.log("Complete los datos: ", { password, newPassword});
-//         return res.status(400).json({ mensaje: 'Faltan datos' });
-//     }
-
-//     const usuarioId = req.session.user; 
-
-//     const query = 'SELECT password FROM usuario WHERE user = ?';
-//     db.query(query, [usuarioId], (err, results) => {
-//         if (err) {
-//             console.log("Error en la base de datos: ", err);
-//             return res.status(500).json({ mensaje: 'Error al consultar la base de datos.' });
-//         }
-
-//         if (results.length === 0) {
-//             console.log("Usuario no encontrado.");
-//             return res.status(404).json({ mensaje: 'Usuario no encontrado.' });
-//         }
-
-//         if (password !== results[0].password) {
-//             console.log("Contraseña actual incorrecta.");
-//             return res.status(400).json({ mensaje: 'La contraseña actual es incorrecta.' });
-//         }
-
-//         const updateQuery = 'UPDATE usuario SET password = ? WHERE user = ?';
-//         db.query(updateQuery, [newPassword, usuarioId], (err, result) => {
-//             if (err) {
-//                 console.log("Error al actualizar la contraseña: ", err);
-//                 return res.status(500).json({ mensaje: 'Error al actualizar la contraseña.' });
-//             }
-//             console.log(result)
-//             console.log("Contraseña actualizada correctamente.");
-//             return res.status(200).json({ mensaje: 'Contraseña cambiada correctamente.' });
-//         });
-//     });
-// });
-
-app.post('/eliminarCuenta', (req, res) => {
-    const { contraseñaActual } = req.body;
-
-    if (!contraseñaActual || !req.session.id_usuario) {
-        console.log("Faltan datos: ", { contraseñaActual, id_usuario: req.session.id_usuario });
-        return res.status(400).json({ mensaje: 'Faltan datos: contraseña actual o id_usuario en sesión.' });
-    }
-
-    const usuarioId = req.session.id_usuario;  
+// cambiar contraseña  
+app.put('/editar', (req, res)=>{
+    const sql = 'select password from usuario where id = ?'
+    const {oldpassword, password} = req.body;
     
-    const query = 'SELECT contraseña FROM usuarios WHERE id_usuario = ?';
-    db.query(query, [usuarioId], (err, results) => {
-        if (err) {
-            console.log("Error en la base de datos: ", err);
-            return res.status(500).json({ mensaje: 'Error al consultar la base de datos.' });
+    console.log(id)
+    console.log(password)
+    // console.log(usuario)
+
+    db.query(sql, [password], (err, result)=>{
+        if (err){
+            return console.error('error de lectura');
         }
-
-        if (results.length === 0) {
-            console.log("Usuario no encontrado.");
-            return res.status(404).json({ mensaje: 'Usuario no encontrado.' });
+        if(oldpassword !== req.session.password){
+            console.log(password)
+            return console.error('contraseña incorrecta')
         }
-
-        if (contraseñaActual !== results[0].contraseña) {
-            console.log("Contraseña actual incorrecta.");
-            return res.status(400).json({ mensaje: 'La contraseña actual es incorrecta.' });
-        }
-
-        const deleteQuery = 'DELETE FROM usuarios WHERE id_usuario = ?';
-        db.query(deleteQuery, [usuarioId], (err, result) => {
-            if (err) {
-                console.log("Error al eliminar la cuenta: ", err);
-                return res.status(500).json({ mensaje: 'Error al eliminar la cuenta.' });
-            }
-
-            req.session.destroy((err) => {
-                if (err) {
-                    console.log("Error al destruir la sesión: ", err);
-                    return res.status(500).json({ mensaje: 'Error al destruir la sesión.' });
-                }
-                console.log("Cuenta eliminada correctamente.");
-                return res.status(200).json({ mensaje: 'Cuenta eliminada correctamente.' });
-            });
-        });
-    });
-});
-
-
-// app.put('/usuario', (req, res) => {
-//     // res.send('Actualizar producto')
-//     const {user}= req.body
-//     // const valores = Object.values(req.body);
-//     console.log(user)
-//     const sql = "UPDATE usuario SET password=? WHERE user=?"
-//     db.query(sql, user, (err, result) => {
-//         if (err) {
-//             console.error('error al modificar el perfil')
-//             return;
-//         }
-//         if (user===user.user){
-//             req.session.id= user.id
-//             return res.status(200).json({
-//                 mensaje: 'Login exitoso'
-//             })
-//         }else{
-//             console.error('no se pudo')
-//         }
-//         res.json({ mensaje: "perfil actualizado", data: result})
-//         console.log(result)
-//     })
-// })
-
-
-// app.delete('/usuario/:user', (req, res) => {
-//     // res.send('Eliminando Producto')
-//     const id = req.params.id;
-
-//     const sql = "DELETE FROM productos WHERE user = ?";
-//     db.query(sql, [user], (err, result) => {
-//         if (err) {
-//             console.error('error al borrar')
-//             return;
-//         }
-//         console.log(result)
-//         res.json({ mensaje: "usuario eliminado" })
-//     })
-// })
+        console.log(result)
+        
+    //     // res.send('contraseña actualizada con exito')
+    //     const query = 'UPDATE `usuario` SET `password` = ? WHERE `user` = ?'
+    //     db.query(query, [user, password], (err, result)=>{
+    //         if(err){
+    //             console.error('error al cambiar la contraseña')
+    //         }
+    //         console.log('contraseña cambiada')
+    //         console.log(result)
+    //     })
+    })
+})
 
 app.listen(port, () => {
     console.log(`Servidor corriendo en puerto ${port}`)
 });
+

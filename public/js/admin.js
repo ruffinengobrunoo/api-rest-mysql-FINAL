@@ -34,7 +34,7 @@ const obtenerDatos = async () => {
       productos +=
         `<div class="card border border-1 border-dark d-flex flex-column align-items-center"
                   style="width: 100%; max-width: 300px; margin:30px">
-                  <img src="./fotos/${prod.imagen}" class="card-img-top" style="width: 100%; height: 250px; padding: 0px" " alt="...">
+                  <img src="./fotos/${prod.imagen}.jpg" class="card-img-top" style="width: 100%; height: 250px; padding: 0px" " alt="...">
                   <div class="card-body ">
                       <h4>${prod.titulo}</h4>
                       <p class="card-text ">${prod.descripcion}</p>
@@ -72,7 +72,7 @@ formulario.addEventListener('submit', (event) => {
   let titulo = formulario.titulo.value
   let descripcion = formulario.descripcion.value
   let precio = formulario.precio.value
-  let imagen = formulario.imagen.value+'.jpg'
+  let imagen = formulario.imagen.value
   // console.log(titulo,descripcion,precio);
 
   // Objetos con los datos obtenidos en el formulario
@@ -163,6 +163,7 @@ const editar = (id) => {
   formEditar.idEditar.value = prodEditar.id;
   formEditar.titulo.value = prodEditar.titulo;
   formEditar.descripcion.value = prodEditar.descripcion;
+  formEditar.imagen.value = prodEditar.imagen;
   formEditar.precio.value = prodEditar.precio;
 }
 
@@ -174,6 +175,7 @@ formEditar.addEventListener('submit', (event) => {
     titulo: formEditar.titulo.value,
     descripcion: formEditar.descripcion.value,
     precio: formEditar.precio.value,
+    imagen: formEditar.imagen.value,
     id: formEditar.idEditar.value
   }
 
