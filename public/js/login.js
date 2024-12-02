@@ -73,7 +73,8 @@ login.addEventListener('submit', (event) => {
 
 // 
 function userData(user) {
-  localStorage.setItem('userLog', JSON.stringify(user));
+  // localStorage.setItem('userLog', JSON.stringify(user));
+  
   mostrarNavbar();
 }
 
@@ -83,7 +84,7 @@ function logOut() {
 }
 
 function mostrarNavbar() {
-  const userLog = JSON.parse(localStorage.getItem('userLog'));
+  const userLog=getElementById();
   console.log(userLog)
 
   if (userLog) {

@@ -1,39 +1,37 @@
-document.getElementById('formCambioContraseña').addEventListener('submit', async (event) => {
-  event.preventDefault();
-
-  const contraseñaActual = document.getElementById('contraseñaActual').value;
-  const nuevaContraseña = document.getElementById('nuevaContraseña').value;
-  const confirmarContraseña = document.getElementById('confirmarContraseña').value;
-
-  if (nuevaContraseña !== confirmarContraseña) {
-      document.getElementById('mensaje').innerHTML = '<div class="alert alert-danger">Las contraseñas no coinciden.</div>';
-      return;
+mostrarMensaje = (mensaje) => {
+    document.querySelector('#mensajeLog').innerHTML = mensaje;
   }
-
-  console.log('Contraseña actual:', contraseñaActual);
-  console.log('Nueva contraseña:', nuevaContraseña);
-
-  try {
-      const response = await fetch('/modificarContra', {
-          method: 'POST',
+  
+  // cambiar contraseña
+  document.getElementById('eliminar').addEventListener('submit', async (event)=> {
+    event.preventDefault();
+  
+    const email = document.getElementById('email').value;
+    // const oldpassword = document.getElementById('oldpassword').value;
+    const password = document.getElementById('password').value;
+  
+    if(!email || !password){
+      console.log('faltan datos')
+      document.querySelector('#mensajeLog').innerHTML = '*Complete todos los datos'
+      return
+    }
+  
+      try {
+        const enviarDatos = await fetch('/eliminar', {
+          method: 'post',
           headers: {
-              'Content-Type': 'application/json'
+            'content-type': 'application/json'
           },
           body: JSON.stringify({
-              contraseñaActual,
-              nuevaContraseña
+            email,
+            password
           })
-      });
-
-      if (!response.ok) {
-          throw new Error('Error al cambiar la contraseña.');
-      }
-
-      const result = await response.json();
-      console.log("Respuesta del servidor: ", result);
-      document.getElementById('mensaje').innerHTML = `<div class="alert alert-success">${result.mensaje}</div>`;
-  } catch (error) {
-      console.log("Error en la solicitud: ", error);
-      document.getElementById('mensaje').innerHTML = `<div class="alert alert-danger">${error.message}</div>`;
-  }
-});
+        })
+        // setTimeout(() => {
+        //   location.reload();
+        // }, 1000);
+        console.log(enviarDatos);
+      }catch (error) {
+          console.log(error)
+        }
+  });

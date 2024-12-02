@@ -45,7 +45,7 @@ const navbar = `
                                         </svg> </a>
                     <ul class="dropdown-menu" style="background-color: orange;">
                         <li><a href="./perfil.html" class="dropdown-item" style="background-color: orange;">Cambiar contraseña</a></li>
-                        <li><a href="./perfil.html" class="dropdown-item text-danger" style="background-color: orange;">Eliminar cuenta</a></li>
+                        <li><a href="./delPerfil.html" class="dropdown-item text-danger" style="background-color: orange;">Eliminar cuenta</a></li>
                     </ul>
                                 </li>
                                 <div>
