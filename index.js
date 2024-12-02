@@ -54,8 +54,8 @@ app.put('/productos', (req, res) => {
             console.error('error al modificar producto')
             return;
         }
-        res.json({ mensaje: "producto actualizado", data: result})
-        console.log(result)
+        res.json({ mensaje: "producto actualizado"})
+        // console.log(result)
     })
 })
 
@@ -92,31 +92,27 @@ const sql = "INSERT INTO usuario (nombre, user, email, password) VALUES (?, ?, ?
 })
 
 // ingreso
-app.post('/usuario', (req, res) => {
-    const { user, password } = req.body;
+app.post('/login', (req, res) => {
+    const { email, password } = req.body;
+    console.log(email, password)
 
-    if (!user || !password) {
+    if (!email || !password) {
         return res.status(400).send('Faltan datos');
     }
-
-    const sql = 'SELECT * FROM usuario WHERE user = ?';
-    db.query(sql, [user], (err, results) => {
+    const sql = 'SELECT id FROM usuario WHERE email = ? and password = ?';
+    db.query(sql, [email, password], (err, results) => {
         if (err) {
             return res.status(500).send('Error al realizar la consulta');
         }
-
         if (results.length === 0) {
             return res.status(400).send('Usuario no encontrado');
         }
-        if (results.length>0){
-            const user = results[0]
-
-            return res.json({
-                message: 'Inicio de sesión exitoso.',
-                redirectTo: user.id === 1 ? '/admin.html' : '/index.html',
-            });
-        }
-    
+        if(results.length>0){
+            const usuario=results[0];
+            return res.json({message: 'Inicio de sesión exitoso.',
+                redirectTo: usuario.id === 1 ? '/admin.html' : '/index.html',
+                  });
+                }
     });
 });
 

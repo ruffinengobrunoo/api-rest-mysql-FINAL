@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log(userLog)
 
         if (userLog) {
-            document.querySelector('#user .nav-link').innerText = `Bienvenido, ${userLog.nombre}`;
+            document.querySelector('#user .nav-link').innerText = `Bienvenido`;
             ingresar.style.display = "none";
             user.style.display = "block";
             
