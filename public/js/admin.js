@@ -1,6 +1,7 @@
 const endpoint = '/productos'
 
 mostrarMensaje = (mensaje) => {
+  document.querySelector('#divMensaje').className += " bg-warning";
   document.querySelector('#divMensaje').innerHTML = mensaje;
 }
 
@@ -126,7 +127,7 @@ formulario.addEventListener('submit', (event) => {
 // eliminar producto por atrevido gato..
 const eliminar = (id) => {
   // console.log(id + " sos capo")
-  if (confirm('posta queres eliminar?')) {
+  if (confirm('¿realmente desea eliminar el producto?')) {
     const eliminarProd = async () => {
       try {
         const res = await fetch(endpoint + '/' + id, { // endpoint con param

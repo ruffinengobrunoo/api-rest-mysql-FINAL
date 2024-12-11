@@ -1,5 +1,6 @@
 mostrarMensaje = (mensaje) => {
-  document.querySelector('#mensajeLog').innerHTML = mensaje;
+  document.querySelector('#mensaje').className += " bg-warning";
+  document.querySelector('#mensaje').innerHTML = mensaje;
 }
 
 // cambiar contraseña
@@ -30,11 +31,14 @@ document.getElementById('editPassword').addEventListener('submit', async (event)
           password
         })
       })
-      // setTimeout(() => {
-      //   location.reload();
-      // }, 1000);
+      mostrarMensaje('Contraseña actualizada con éxito')
+      window.location.href = './index.html';
       console.log(enviarDatos);
     }catch (error) {
         console.log(error)
+        mostrarMensaje('Error al cambiar la contraseña')
+        setTimeout(() => {
+        location.reload();
+      }, 1000);
       }
 });

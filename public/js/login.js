@@ -1,8 +1,8 @@
 const endpoint = '/usuario'
 
 mostrarMensaje = (mensaje) => {
-  console.log(mensaje)
-  document.querySelector('#divMensaje').innerHTML = mensaje
+  document.querySelector('#mensaje').className += " bg-warning";
+  document.querySelector('#mensaje').innerHTML = mensaje;
 }
 
 document.getElementById('login').addEventListener('submit', async (event)=> {
@@ -24,37 +24,23 @@ document.getElementById('login').addEventListener('submit', async (event)=> {
     });
 
     const data = await response.json();
+    
 
     if (response.ok) {
-        // Redirige a la URL proporcionada por el servidor
-        window.location.href = data.redirectTo;
+        if(data.id==1){
+          window.location.href = '/admin.html';
+        } else {
+            window.location.href = '/index.html';
+        }
+        
     } else {
         alert(data.message); // Muestra el mensaje de error
     }
 } catch (error) {
-    console.error('Error al realizar la solicitud:', error);
+    // console.error('Error al realizar la solicitud:', error);
+    mostrarMensaje('Error al ingresar')
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
 }
 });
-
-function loginUsuario(email) {
-  localStorage.setItem('usuarioLogueado', JSON.stringify(email));
-  mostrarNavbar();
-}
-
-function logOut() {
-  localStorage.removeItem('usuarioLogueado');
-  mostrarNavbar();
-}
-
-function mostrarNavbar() {
-  const usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
-
-  if (usuarioLogueado) {
-      document.getElementById('salir').style.display = 'block';
-      document.getElementById('ingresar').style.display = 'none';
-      document.getElementById('user').querySelector('.nav-link').innerText = `Bienvenido`;
-  } else {
-      document.getElementById('salir').style.display = 'none';
-      document.getElementById('ingresar').style.display = 'block';
-  }
-}

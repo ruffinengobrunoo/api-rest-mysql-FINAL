@@ -1,6 +1,7 @@
 mostrarMensaje = (mensaje) => {
-    document.querySelector('#mensajeLog').innerHTML = mensaje;
-  }
+  document.querySelector('#mensaje').className += " bg-warning";
+  document.querySelector('#mensaje').innerHTML = mensaje;
+}
   
   // cambiar contraseña
   document.getElementById('eliminar').addEventListener('submit', async (event)=> {
@@ -27,11 +28,19 @@ mostrarMensaje = (mensaje) => {
             password
           })
         })
-        // setTimeout(() => {
-        //   location.reload();
-        // }, 1000);
+
+        const respuesta= await enviarDatos.text()
+        if(respuesta === 'cuenta eliminada'){
+        mostrarMensaje('Cuenta eliminada con éxito')
+        window.location.href = './index.html';
         console.log(enviarDatos);
+        }
+
       }catch (error) {
           console.log(error)
+          mostrarMensaje('Error al eliminar perfil')
+          setTimeout(() => {
+            location.reload();
+          }, 1500);
         }
   });

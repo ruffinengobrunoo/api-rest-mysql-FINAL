@@ -33,11 +33,11 @@ const navbar = `
             </div>
 
             <div id="user">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav mb-2 mb-lg-0 me-3">
                     <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                                             fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                                             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
                                             <path fill-rule="evenodd"
@@ -49,7 +49,7 @@ const navbar = `
                     </ul>
                                 </li>
                                 <div>
-                                    <button id="salir" class="btn btn-outline-dark mt-2" type="submit">Salir</button>
+                                    <button id="salir" class="btn btn-outline-dark mt-2 ms-5" type="submit">Salir</button>
                                 </div>
                             </ul>
                         </div>
