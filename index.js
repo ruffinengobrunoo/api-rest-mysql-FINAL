@@ -56,14 +56,14 @@ app.put('/productos', (req, res) => {
     // res.send('Actualizar producto')
     const valores = Object.values(req.body);
     console.log(valores)
-    const sql = "UPDATE productos SET titulo=?, descripcion=?, precio=? WHERE id=?"
+    const sql = "UPDATE productos SET titulo=?, descripcion=?, precio=?, imagen=? WHERE id=?"
     db.query(sql, valores, (err, result) => {
         if (err) {
-            console.error('error al modificar producto')
+            console.error('error al modificar prod')
             return;
         }
-        res.json({ mensaje: "producto actualizado" })
-        // console.log(result)
+        res.json({ mensaje: "producto actualizado", data: result})
+        console.log(result)
     })
 })
 

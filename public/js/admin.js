@@ -164,8 +164,8 @@ const editar = (id) => {
   formEditar.idEditar.value = prodEditar.id;
   formEditar.titulo.value = prodEditar.titulo;
   formEditar.descripcion.value = prodEditar.descripcion;
-  formEditar.imagen.value = prodEditar.imagen;
   formEditar.precio.value = prodEditar.precio;
+  formEditar.imagen.value = prodEditar.imagen;
 }
 
 formEditar.addEventListener('submit', (event) => {
@@ -177,13 +177,14 @@ formEditar.addEventListener('submit', (event) => {
     descripcion: formEditar.descripcion.value,
     precio: formEditar.precio.value,
     imagen: formEditar.imagen.value,
-    id: formEditar.idEditar.value
+    id: formEditar.idEditar.value,
   }
 
   if (!nuevosDatos.titulo || !nuevosDatos.descripcion || !nuevosDatos.precio) {
     document.querySelector('#mensajeEditar').innerHTML = '*Complete todos los datos'
     return
   }
+
   document.querySelector('#mensaje').innerHTML = ''
 
 
