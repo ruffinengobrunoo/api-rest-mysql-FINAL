@@ -6,7 +6,7 @@ const cors = require('cors')
 const dotenv = require('dotenv/config')
 const app = express();
 // const port = 3000;
-const session = require('express-session')
+// const session = require('express-session')
 // const response = require('express')
 const port = process.env.MYSQL_ADDON_PORT || 3000;
 
@@ -116,7 +116,7 @@ app.post('/login', (req, res) => {
             return res.status(400).send('Usuario no encontrado');
         }
         if (results.length > 0) {
-            // const user = results[0]
+            const user = results[0]
             // req.session.id = user.id;
             // req.session.save((err) => {
             //     if (err) {
@@ -125,6 +125,7 @@ app.post('/login', (req, res) => {
             // });
             return res.json({
                 message: 'Inicio de sesión exitoso.',
+                redirectTo: user.id === 1 ? '/admin.html' : '/index.html',
                 // id: user.id,
                 // nombre: user.nombre
             });

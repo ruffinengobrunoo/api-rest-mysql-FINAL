@@ -85,10 +85,9 @@ document.getElementById('ingresar').addEventListener('click', function () {
 let salir = document.querySelector('#salir')
 salir.addEventListener('click', () => {
     let user = document.querySelector('#user')
-
     ingresar.style.display = 'block';
     user.style.display = "none";
-
+    // window.location.href= './index.html'
 })
 if(user.style.display='block'){
     ingresar.style.display= 'none';

@@ -27,12 +27,7 @@ document.getElementById('login').addEventListener('submit', async (event)=> {
     
 
     if (response.ok) {
-        if(data.id==1){
-          window.location.href = '/admin.html';
-        } else {
-            window.location.href = '/index.html';
-        }
-        
+      window.location.href = data.redirectTo;
     } else {
         alert(data.message); // Muestra el mensaje de error
     }
